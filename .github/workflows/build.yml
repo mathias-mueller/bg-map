@@ -16,6 +16,8 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
   deploy:
+    needs:
+      - build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,9 +26,7 @@ jobs:
         with:
           node-version: 15.x
       - run: npm ci
-      - run: npm run build --if-present
-        env:
-          PUBLIC_URL: https://mathias-mueller.github.io/bg-map
+      - run: npm run build-prod --if-present
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
